@@ -15,7 +15,7 @@ type File struct {
 	file *fs.File
 }
 
-func OpenFile(path string) (File, error) {
+func Load(path string) (File, error) {
 	f := File{}
 
 	// check the path validation
