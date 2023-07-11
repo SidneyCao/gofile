@@ -1,6 +1,8 @@
 package file
 
-import "os"
+import (
+	"io/fs"
+)
 
 type File struct {
 	isExist bool
@@ -10,5 +12,28 @@ type File struct {
 	absPath string
 	ext     string
 
-	file *os.File
+	file *fs.File
 }
+
+func OpenFile(path string) (File, error) {
+	f := File{}
+
+	// check the path validation
+	// invalid types as following
+	// " /x", "../x", "./x", "/./x", "/../x"
+	if !fs.ValidPath(path) {
+		return f, &fs.PathError{
+			Op:   "open",
+			Path: path,
+			Err:  fs.ErrInvalid,
+		}
+	}
+
+	return f, nil
+}
+
+// for file -------------------------
+
+// for dir --------------------------
+
+// common
