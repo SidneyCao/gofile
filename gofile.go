@@ -1,9 +1,6 @@
-package main
+package gofile
 
 import (
-	"fmt"
-	"io/fs"
-	"log"
 	"os"
 	"path/filepath"
 )
@@ -11,12 +8,13 @@ import (
 type Path struct {
 	ifExist bool // default false
 	isDir   bool // default false
+	isFile  bool // default false
 
 	name    string // default ""
 	absPath string // default ""
 	ext     string // default ""
 
-	file *fs.File // default nil
+	file *os.File // default nil
 }
 
 func Load(pathStr string) (Path, error) {
@@ -35,6 +33,8 @@ func Load(pathStr string) (Path, error) {
 	// if is dir
 	if sts.IsDir() {
 		p.isDir = true
+	} else {
+		p.isFile = true
 	}
 
 	// get the name
@@ -49,20 +49,4 @@ func Load(pathStr string) (Path, error) {
 	// get ext
 	p.ext = filepath.Ext(pathStr)
 	return p, nil
-}
-
-// for file -------------------------
-
-// for dir --------------------------
-
-// common ---------------------------
-
-func main() {
-
-	p, err := Load("./")
-	if err != nil {
-		log.Println(err)
-	}
-	fmt.Println(p)
-
 }
