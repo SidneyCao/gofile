@@ -61,7 +61,7 @@ func TestFileOpenClose(t *testing.T) {
 	})
 	t.Run("close", func(t *testing.T) {
 		err := p.Close()
-		time.Sleep(10 * time.Second)
+		time.Sleep(30 * time.Second)
 		fmt.Println(p.file.Fd())
 		if err != nil {
 			t.Errorf("test file close error!")
