@@ -1,2 +1,2 @@
-# gofs
-Package gofs provide some utilities for working with file system in golang.
+# gofile
+Package gofile provide some utilities for working with local files in golang.
