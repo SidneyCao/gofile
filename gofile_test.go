@@ -1,9 +1,7 @@
 package gofile
 
 import (
-	"fmt"
 	"testing"
-	"time"
 )
 
 // test in unix system
@@ -54,16 +52,12 @@ func TestFileOpenClose(t *testing.T) {
 	p, _ := Load("./README.md")
 	t.Run("open", func(t *testing.T) {
 		p.Open()
-		fmt.Println(p.file.Fd())
-		time.Sleep(30 * time.Second)
 		if p.file == nil {
 			t.Errorf("test file open error!")
 		}
 	})
 	t.Run("close", func(t *testing.T) {
 		err := p.Close()
-		fmt.Println(p.file.Fd())
-		time.Sleep(30 * time.Second)
 		if err != nil {
 			t.Errorf("test file close error!")
 		}
