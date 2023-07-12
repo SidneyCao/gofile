@@ -52,12 +52,9 @@ func TestLoad(t *testing.T) {
 
 func TestFileOpenClose(t *testing.T) {
 	p, _ := Load("./README.md")
-	p1, _ := Load("/etc/profile")
 	t.Run("open", func(t *testing.T) {
 		p.Open()
-		p1.Open()
 		fmt.Println(p.file.Fd())
-		fmt.Println(p1.file.Fd())
 		time.Sleep(30 * time.Second)
 		if p.file == nil {
 			t.Errorf("test file open error!")
