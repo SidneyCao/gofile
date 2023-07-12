@@ -55,14 +55,15 @@ func TestFileOpenClose(t *testing.T) {
 	t.Run("open", func(t *testing.T) {
 		p.Open()
 		fmt.Println(p.file.Fd())
+		time.Sleep(30 * time.Second)
 		if p.file == nil {
 			t.Errorf("test file open error!")
 		}
 	})
 	t.Run("close", func(t *testing.T) {
 		err := p.Close()
-		time.Sleep(30 * time.Second)
 		fmt.Println(p.file.Fd())
+		time.Sleep(30 * time.Second)
 		if err != nil {
 			t.Errorf("test file close error!")
 		}
