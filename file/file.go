@@ -2,33 +2,50 @@ package file
 
 import (
 	"io/fs"
+	"os"
+	"path/filepath"
 )
 
 type File struct {
-	isExist bool
-	isFile  bool
+	ifExist bool // default false
+	isDir   bool // default false
 
-	name    string
-	absPath string
-	ext     string
+	name    string // default ""
+	absPath string // default ""
+	ext     string // default ""
 
-	file *fs.File
+	file *fs.File // default nil
 }
 
 func Load(path string) (File, error) {
 	f := File{}
 
-	// check the path validation
-	// invalid types as following
-	// " /x", "../x", "./x", "/./x", "/../x"
-	if !fs.ValidPath(path) {
-		return f, &fs.PathError{
-			Op:   "open",
-			Path: path,
-			Err:  fs.ErrInvalid,
+	// if exist
+	sts, err := os.Stat(path)
+	if err != nil {
+		if !os.IsExist(err) {
+			f.ifExist = false
 		}
+		return f, err
+	}
+	f.ifExist = true
+
+	// if is dir
+	if sts.IsDir() {
+		f.isDir = true
 	}
 
+	// get the name
+	f.name = filepath.Base(path)
+	// get the absPath
+	f.absPath, _ = filepath.Abs(path)
+
+	if f.isDir {
+		return f, nil
+	}
+
+	// get ext
+	f.ext = filepath.Ext(path)
 	return f, nil
 }
 
@@ -36,4 +53,4 @@ func Load(path string) (File, error) {
 
 // for dir --------------------------
 
-// common
+// common ---------------------------
