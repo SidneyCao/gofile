@@ -25,12 +25,9 @@ func (p *Path) refresh(pathStr string) error {
 	// if is dir
 	if sts.IsDir() {
 		p.isDir = true
+		return nil
 	} else {
 		p.isFile = true
-	}
-
-	if p.isDir {
-		return nil
 	}
 
 	// get ext
