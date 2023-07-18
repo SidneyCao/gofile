@@ -2,7 +2,6 @@ package gofile
 
 import (
 	"os"
-	"path/filepath"
 )
 
 type Path struct {
@@ -20,33 +19,7 @@ type Path struct {
 func Load(pathStr string) (Path, error) {
 	p := Path{}
 
-	// get the name
-	p.name = filepath.Base(pathStr)
-	// get the absPath
-	p.absPath, _ = filepath.Abs(pathStr)
+	err := p.refresh(pathStr)
 
-	// if exist
-	sts, err := os.Stat(pathStr)
-	if err != nil {
-		if !os.IsExist(err) {
-			p.ifExist = false
-		}
-		return p, err
-	}
-	p.ifExist = true
-
-	// if is dir
-	if sts.IsDir() {
-		p.isDir = true
-	} else {
-		p.isFile = true
-	}
-
-	if p.isDir {
-		return p, nil
-	}
-
-	// get ext
-	p.ext = filepath.Ext(pathStr)
-	return p, nil
+	return p, err
 }

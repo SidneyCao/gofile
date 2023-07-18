@@ -18,10 +18,7 @@ func (p *Path) Open() error {
 	}
 
 	p.file = f
-	if !p.ifExist {
-		p.ifExist = true
-		p.isFile = true
-	}
+	p.refresh(p.absPath)
 	return nil
 }
 
@@ -37,3 +34,7 @@ func (p *Path) Close() error {
 	}
 	return nil
 }
+
+// size
+
+//
