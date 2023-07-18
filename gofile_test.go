@@ -1,6 +1,7 @@
 package gofile
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -51,15 +52,33 @@ func TestLoad(t *testing.T) {
 func TestFileOpenClose(t *testing.T) {
 	p, _ := Load("./README.md")
 	t.Run("open", func(t *testing.T) {
-		p.Open()
+		err := p.Open()
 		if p.file == nil {
-			t.Errorf("test file open error!")
+			t.Errorf("%v, test file open error!", err)
 		}
 	})
 	t.Run("close", func(t *testing.T) {
 		err := p.Close()
+		fmt.Println(err)
 		if err != nil {
-			t.Errorf("test file close error!")
+			t.Errorf("%v, test file close error!", err)
+		}
+	})
+}
+
+func TestFileCreateClose(t *testing.T) {
+	p, _ := Load("./README1.md")
+	t.Run("create", func(t *testing.T) {
+		err := p.Create()
+		if p.file == nil {
+			t.Errorf("%v, test file create error!", err)
+		}
+	})
+	t.Run("close", func(t *testing.T) {
+		err := p.Close()
+		fmt.Println(err)
+		if err != nil {
+			t.Errorf("%v, test file close error!", err)
 		}
 	})
 }
