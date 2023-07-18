@@ -20,6 +20,11 @@ type Path struct {
 func Load(pathStr string) (Path, error) {
 	p := Path{}
 
+	// get the name
+	p.name = filepath.Base(pathStr)
+	// get the absPath
+	p.absPath, _ = filepath.Abs(pathStr)
+
 	// if exist
 	sts, err := os.Stat(pathStr)
 	if err != nil {
@@ -36,11 +41,6 @@ func Load(pathStr string) (Path, error) {
 	} else {
 		p.isFile = true
 	}
-
-	// get the name
-	p.name = filepath.Base(pathStr)
-	// get the absPath
-	p.absPath, _ = filepath.Abs(pathStr)
 
 	if p.isDir {
 		return p, nil
