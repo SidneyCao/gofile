@@ -1,7 +1,9 @@
 package gofile
 
 import (
+	"bufio"
 	"errors"
+	"io"
 	"os"
 )
 
@@ -35,6 +37,30 @@ func (p *Path) Close() error {
 	return nil
 }
 
-// size
+// read file
+func (p *Path) Read() ([]byte, error) {
+	if p.isDir {
+		return nil, errors.New("this object is dir, can not be readed")
+	}
+	r := bufio.NewReader(p.file)
 
-//
+	res := make([]byte, 0)
+	resTemp := make([]byte, 1024)
+
+	for {
+		n, err := r.Read(resTemp)
+		if err != nil && err != io.EOF {
+			return nil, err
+		}
+		if n == 0 {
+			break
+		} else {
+			res = append(res, resTemp[:n]...)
+		}
+	}
+	return res, nil
+}
+
+// read file by line
+
+// write file
