@@ -51,7 +51,7 @@ func TestLoad(t *testing.T) {
 }
 
 func TestFileOpenClose(t *testing.T) {
-	p, _ := Load("./testFiles/read.txt")
+	p, _ := Load("./test_files/read.txt")
 	t.Run("open", func(t *testing.T) {
 		err := p.Open()
 		if p.file == nil {
@@ -69,7 +69,7 @@ func TestFileOpenClose(t *testing.T) {
 }
 
 func TestFileRead(t *testing.T) {
-	p, _ := Load("./testFiles/read.txt")
+	p, _ := Load("./test_files/read.txt")
 	t.Run("open1", func(t *testing.T) {
 		err := p.Open()
 		if p.file == nil {
