@@ -83,6 +83,7 @@ func TestFileRead(t *testing.T) {
 			t.Errorf("%v, test file read error!", err)
 		}
 		fmt.Println(string(b))
+		p.Close()
 	})
 	fmt.Println(p.file.Fd())
 
@@ -95,6 +96,8 @@ func TestFileRead(t *testing.T) {
 	t.Run("readline", func(t *testing.T) {
 		l, _ := p.ReadLine()
 		fmt.Println(l)
+
+		p.Close()
 	})
 
 	fmt.Println(p.file.Fd())

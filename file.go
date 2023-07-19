@@ -38,13 +38,11 @@ func (p *Path) Close() error {
 }
 
 // read file
-// also will defer close file
 func (p *Path) Read() ([]byte, error) {
 	if p.isDir {
 		return nil, errors.New("this object is dir, can not be readed")
 	}
 	r := bufio.NewReader(p.file)
-	defer p.Close()
 
 	res := make([]byte, 0)
 	resTemp := make([]byte, 1024)
@@ -62,17 +60,29 @@ func (p *Path) Read() ([]byte, error) {
 	}
 }
 
-// read file by line
+// ReadLine will return a slice of string
+// which contains the content of file line by line
 // also will defer close file
-func (p *Path) ReadLine() (string, error) {
+func (p *Path) ReadLine() ([]string, error) {
+	res := make([]string, 0)
 	if p.isDir {
-		return "", errors.New("this object is dir, can not be readed")
+		return res, errors.New("this object is dir, can not be readed")
 	}
+
 	r := bufio.NewReader(p.file)
 
-	line, err := r.ReadSlice('\n')
+	for {
+		line, err := r.ReadSlice('\n')
+		res = append(res, string(line))
+		if err != nil {
+			if err != io.EOF {
+				return res, err
+			}
+			break
+		}
+	}
 
-	return string(line), err
+	return res, nil
 }
 
 // write file
