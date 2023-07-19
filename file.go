@@ -2,6 +2,7 @@ package gofile
 
 import (
 	"bufio"
+	"bytes"
 	"errors"
 	"io"
 	"os"
@@ -62,7 +63,7 @@ func (p *Path) Read() ([]byte, error) {
 
 // ReadLine will return a slice of string
 // which contains the content of file line by line
-// also will defer close file
+// the return error will never be nil, most time it is io.EOF
 func (p *Path) ReadLine() ([]string, error) {
 	res := make([]string, 0)
 	if p.isDir {
@@ -72,17 +73,14 @@ func (p *Path) ReadLine() ([]string, error) {
 	r := bufio.NewReader(p.file)
 
 	for {
-		line, err := r.ReadSlice('\n')
+		line, err := r.ReadBytes('\n')
+		line = bytes.TrimRight(line, "\r\n")
 		res = append(res, string(line))
 		if err != nil {
-			if err != io.EOF {
-				return res, err
-			}
-			break
+			// if err == io.EOF will also return
+			return res, err
 		}
 	}
-
-	return res, nil
 }
 
 // write file

@@ -57,20 +57,20 @@ func TestFileOpenClose(t *testing.T) {
 		if p.file == nil {
 			t.Errorf("%v, test file open error!", err)
 		}
-		fmt.Println(p)
+		fmt.Printf("the Path struct is %v \n", p)
 	})
 	t.Run("close", func(t *testing.T) {
 		err := p.Close()
 		if err != nil {
 			t.Errorf("%v, test file close error!", err)
 		}
-		fmt.Println(p.file.Fd())
+		fmt.Printf("the file descriptor is invaild as %v \n", p.file.Fd())
 	})
 }
 
 func TestFileRead(t *testing.T) {
 	p, _ := Load("./123.txt")
-	t.Run("open", func(t *testing.T) {
+	t.Run("open1", func(t *testing.T) {
 		err := p.Open()
 		if p.file == nil {
 			t.Errorf("%v, test file open error!", err)
@@ -85,15 +85,19 @@ func TestFileRead(t *testing.T) {
 		fmt.Println(string(b))
 		p.Close()
 	})
-	fmt.Println(p.file.Fd())
 
-	t.Run("readline", func(t *testing.T) {
-		l, _ := p.ReadLine()
-		fmt.Println(l)
-
-		p.Close()
+	t.Run("open2", func(t *testing.T) {
+		err := p.Open()
+		if p.file == nil {
+			t.Errorf("%v, test file open error!", err)
+		}
 	})
 
-	fmt.Println(p.file.Fd())
-
+	t.Run("readline", func(t *testing.T) {
+		l, err := p.ReadLine()
+		if err != nil && err != io.EOF && l[2] != "3" {
+			t.Errorf("%v, test file read line error!", err)
+		}
+		p.Close()
+	})
 }
