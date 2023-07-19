@@ -34,3 +34,11 @@ func (p *Path) refresh(pathStr string) error {
 	p.ext = filepath.Ext(pathStr)
 	return nil
 }
+
+// copy
+
+// move
+
+// delete
+
+// rename

@@ -61,10 +61,10 @@ func (p *Path) Read() ([]byte, error) {
 	}
 }
 
-// ReadLine will return a slice of string
+// ReadLines() will return a slice of string
 // which contains the content of file line by line
-// the return error will never be nil, most time it is io.EOF
-func (p *Path) ReadLine() ([]string, error) {
+// the returned error will never be nil, most time it is io.EOF
+func (p *Path) ReadLines() ([]string, error) {
 	res := make([]string, 0)
 	if p.isDir {
 		return res, errors.New("this object is dir, can not be readed")
@@ -84,3 +84,5 @@ func (p *Path) ReadLine() ([]string, error) {
 }
 
 // write file
+
+// truncate

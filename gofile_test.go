@@ -51,7 +51,7 @@ func TestLoad(t *testing.T) {
 }
 
 func TestFileOpenClose(t *testing.T) {
-	p, _ := Load("./README.md")
+	p, _ := Load("./testFiles/read.txt")
 	t.Run("open", func(t *testing.T) {
 		err := p.Open()
 		if p.file == nil {
@@ -69,7 +69,7 @@ func TestFileOpenClose(t *testing.T) {
 }
 
 func TestFileRead(t *testing.T) {
-	p, _ := Load("./123.txt")
+	p, _ := Load("./testFiles/read.txt")
 	t.Run("open1", func(t *testing.T) {
 		err := p.Open()
 		if p.file == nil {
@@ -94,7 +94,7 @@ func TestFileRead(t *testing.T) {
 	})
 
 	t.Run("readline", func(t *testing.T) {
-		l, err := p.ReadLine()
+		l, err := p.ReadLines()
 		if err != nil && err != io.EOF && l[2] != "3" {
 			t.Errorf("%v, test file read line error!", err)
 		}
