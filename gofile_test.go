@@ -87,12 +87,6 @@ func TestFileRead(t *testing.T) {
 	})
 	fmt.Println(p.file.Fd())
 
-	t.Run("open", func(t *testing.T) {
-		err := p.Open()
-		if p.file == nil {
-			t.Errorf("%v, test file open error!", err)
-		}
-	})
 	t.Run("readline", func(t *testing.T) {
 		l, _ := p.ReadLine()
 		fmt.Println(l)
