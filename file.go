@@ -41,7 +41,7 @@ func (p *Path) Close() error {
 // read file
 func (p *Path) Read() ([]byte, error) {
 	if p.isDir {
-		return nil, errors.New("this object is dir, can not be readed")
+		return nil, errors.New("this object is dir, can not be read")
 	}
 	r := bufio.NewReader(p.file)
 
@@ -67,7 +67,7 @@ func (p *Path) Read() ([]byte, error) {
 func (p *Path) ReadLines() ([]string, error) {
 	res := make([]string, 0)
 	if p.isDir {
-		return res, errors.New("this object is dir, can not be readed")
+		return res, errors.New("this object is dir, can not be read")
 	}
 
 	r := bufio.NewReader(p.file)
@@ -83,6 +83,24 @@ func (p *Path) ReadLines() ([]string, error) {
 	}
 }
 
+// write file in append mode defaultly
+// receive a slice of string
 // write file
+func (p *Path) write(data []string) error {
+	if p.isDir {
+		return errors.New("this object is dir, can not be written")
+	}
+	for _, s := range data {
+		n, err := p.file.WriteString(s)
+		if err != nil {
+			return err
+		}
+		if n != len(s) {
+			return errors.New("write bytes num error")
+		}
+	}
+
+	return nil
+}
 
 // truncate

@@ -101,3 +101,28 @@ func TestFileRead(t *testing.T) {
 		p.Close()
 	})
 }
+
+func TestFileWrite(t *testing.T) {
+	p, _ := Load("./test_files/wirte.txt")
+	t.Run("open", func(t *testing.T) {
+		err := p.Open()
+		if p.file == nil {
+			t.Errorf("%v, test file open error!", err)
+		}
+	})
+	t.Run("wirte", func(t *testing.T) {
+		date := []string{"1\n", "22\n", "333"}
+		err := p.write(date)
+		if err != nil {
+			t.Errorf("%v, test file write error!", err)
+		}
+		p.Close()
+		p.Open()
+		b, _ := p.Read()
+		fmt.Println(string(b))
+		if string(b) != "1\n22\n333" {
+			t.Errorf("not match,test file write error!")
+		}
+		p.Close()
+	})
+}
