@@ -132,3 +132,13 @@ func TestFileWrite(t *testing.T) {
 		p.Close()
 	})
 }
+
+func TestDirMkdir(t *testing.T) {
+	p, _ := Load("./test_files/test_dir")
+	t.Run("mkdir", func(t *testing.T) {
+		err := p.mkdir()
+		if err != nil || !p.ifExist {
+			t.Errorf("%v, test dir mkdir error!", err)
+		}
+	})
+}
