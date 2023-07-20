@@ -110,6 +110,13 @@ func TestFileWrite(t *testing.T) {
 			t.Errorf("%v, test file open error!", err)
 		}
 	})
+	t.Run("truncate", func(t *testing.T) {
+		err := p.Truncate(0)
+		sts, _ := p.file.Stat()
+		if err != nil || sts.Size() != 0 {
+			t.Errorf("%v, test file truncate error!", err)
+		}
+	})
 	t.Run("wirte", func(t *testing.T) {
 		date := []string{"1\n", "22\n", "333"}
 		err := p.write(date)
@@ -119,7 +126,6 @@ func TestFileWrite(t *testing.T) {
 		p.Close()
 		p.Open()
 		b, _ := p.Read()
-		fmt.Println(string(b))
 		if string(b) != "1\n22\n333" {
 			t.Errorf("not match,test file write error!")
 		}

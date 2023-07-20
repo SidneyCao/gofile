@@ -9,7 +9,7 @@ import (
 )
 
 // open file
-// create if not exist
+// will create if not exist
 func (p *Path) Open() error {
 	if p.isDir {
 		return errors.New("this object is dir, can not be opened")
@@ -83,9 +83,9 @@ func (p *Path) ReadLines() ([]string, error) {
 	}
 }
 
-// write file in append mode defaultly
-// receive a slice of string
-// write file
+// receive a slice of string and write to file one by one
+// write mode is append
+// if you want to override the file, use Truncate(0) first
 func (p *Path) write(data []string) error {
 	if p.isDir {
 		return errors.New("this object is dir, can not be written")
@@ -103,4 +103,11 @@ func (p *Path) write(data []string) error {
 	return nil
 }
 
-// truncate
+// truncate size of a file
+func (p *Path) Truncate(size int64) error {
+	if p.isDir {
+		return errors.New("this object is dir, can not be truncated")
+	}
+	err := p.file.Truncate(size)
+	return err
+}
