@@ -136,7 +136,7 @@ func TestFileWrite(t *testing.T) {
 func TestDirMkdir(t *testing.T) {
 	p, _ := Load("./test_files/test_dir")
 	t.Run("mkdir", func(t *testing.T) {
-		err := p.mkdir()
+		err := p.Mkdir()
 		if err != nil || !p.ifExist {
 			t.Errorf("%v, test dir mkdir error!", err)
 		}
@@ -144,10 +144,21 @@ func TestDirMkdir(t *testing.T) {
 
 	p, _ = Load("./test_files/test_dir/sub_dir/sub")
 	t.Run("mkdirAll", func(t *testing.T) {
-		err := p.mkdirAll()
+		err := p.MkdirAll()
 		if err != nil || !p.ifExist {
 			t.Errorf("%v, test dir mkdirAll error!", err)
 		}
-		fmt.Println(p)
+	})
+}
+
+func TestDirList(t *testing.T) {
+	p, _ := Load("./")
+
+	t.Run("list", func(t *testing.T) {
+		paths, err := p.List()
+		if err != nil {
+			t.Errorf("%v, test dir list error!", err)
+		}
+		fmt.Println(paths)
 	})
 }
