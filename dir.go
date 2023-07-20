@@ -30,5 +30,8 @@ func (p *Path) mkdirAll() error {
 }
 
 // list
+func (p *Path) list() {
+
+}
 
 //

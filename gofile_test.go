@@ -148,5 +148,6 @@ func TestDirMkdir(t *testing.T) {
 		if err != nil || !p.ifExist {
 			t.Errorf("%v, test dir mkdirAll error!", err)
 		}
+		fmt.Println(p)
 	})
 }
