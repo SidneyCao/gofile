@@ -141,4 +141,12 @@ func TestDirMkdir(t *testing.T) {
 			t.Errorf("%v, test dir mkdir error!", err)
 		}
 	})
+
+	p, _ = Load("./test_files/test_dir/sub_dir/sub")
+	t.Run("mkdirAll", func(t *testing.T) {
+		err := p.mkdirAll()
+		if err != nil || !p.ifExist {
+			t.Errorf("%v, test dir mkdirAll error!", err)
+		}
+	})
 }
