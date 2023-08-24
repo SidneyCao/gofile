@@ -64,7 +64,7 @@ func TestFileOpenClose(t *testing.T) {
 		if err != nil {
 			t.Errorf("%v, test file close error!", err)
 		}
-		fmt.Printf("the file descriptor is invaild as %v \n", p.file.Fd())
+		fmt.Printf("the file descriptor is invaild as %v, file has been close! \n", p.file.Fd())
 	})
 }
 

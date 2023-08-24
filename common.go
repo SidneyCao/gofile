@@ -35,10 +35,12 @@ func (p *Path) refresh(pathStr string) error {
 	return nil
 }
 
-// copy
-
-// move
+// rename
+//func (p *Path) Rename() error {
+//}
 
 // delete
 
-// rename
+// move
+
+// copy
