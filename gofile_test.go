@@ -182,11 +182,11 @@ func TestMove(t *testing.T) {
 
 	/*
 		t.Run("move_error", func(t *testing.T) {
-			p, _ := Load("./test_files/file.txt")
+			p, _ := Load("./test_files/sub133/file.txt")
 
 			err := p.Move("./test_files/sub_dir")
 			if err != nil {
-				t.Errorf("%v, move file  error!", err)
+				t.Errorf("%v, move file error!", err)
 			}
 		})
 	*/

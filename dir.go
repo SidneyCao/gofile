@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-// mkdir
+// Make a directory.
 func (p *Path) Mkdir() error {
 	if p.ifExist || p.isFile {
 		return errors.New("this object already exists or is a file")
@@ -17,7 +17,7 @@ func (p *Path) Mkdir() error {
 	return err
 }
 
-// mkdir recursively
+// Make directories recursively.
 func (p *Path) MkdirAll() error {
 	if p.ifExist || p.isFile {
 		return errors.New("this object already exists or is a file")
@@ -29,9 +29,11 @@ func (p *Path) MkdirAll() error {
 	return err
 }
 
-// list all files or dirs in current dir
-// return a slice of Path struct
-// mention: not recursively
+// List all files or directories in current directory.
+//
+// Return a slice of Path struct.
+//
+// Not recursively.
 func (p *Path) List() ([]Path, error) {
 	if p.isDir {
 		paths := make([]Path, 0)

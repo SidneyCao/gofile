@@ -16,6 +16,7 @@ type Path struct {
 	file *os.File // default nil
 }
 
+// Load the path to the Path struct.
 func Load(pathStr string) (Path, error) {
 	p := Path{}
 
