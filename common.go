@@ -1,6 +1,7 @@
 package gofile
 
 import (
+	"errors"
 	"os"
 	"path/filepath"
 )
@@ -39,7 +40,28 @@ func (p *Path) refresh(pathStr string) error {
 //func (p *Path) Rename() error {
 //}
 
-// delete
+// delete a file
+// or delete all files of a dir
+func (p *Path) Delete() error {
+	if !p.ifExist {
+		return errors.New("this object does not exist, can not be delete")
+	} else {
+		if p.isFile {
+			err := os.Remove(p.absPath)
+			if err != nil {
+				return err
+			}
+			p.refresh(p.absPath)
+		} else {
+			err := os.RemoveAll(p.absPath)
+			if err != nil {
+				return err
+			}
+			p.refresh(p.absPath)
+		}
+	}
+	return nil
+}
 
 // move
 

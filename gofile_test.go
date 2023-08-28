@@ -7,6 +7,7 @@ import (
 )
 
 // test in unix system
+
 func TestLoad(t *testing.T) {
 	t.Run("exist", func(t *testing.T) {
 		p, _ := Load("./README.md")
@@ -50,8 +51,26 @@ func TestLoad(t *testing.T) {
 	})
 }
 
+func TestMkdir(t *testing.T) {
+	p, _ := Load("./test_files")
+	t.Run("mkdir", func(t *testing.T) {
+		err := p.Mkdir()
+		if err != nil || !p.ifExist {
+			t.Errorf("%v, test dir mkdir error!", err)
+		}
+	})
+
+	p, _ = Load("./test_files/sub_dir/sub")
+	t.Run("mkdirAll", func(t *testing.T) {
+		err := p.MkdirAll()
+		if err != nil || !p.ifExist {
+			t.Errorf("%v, test dir mkdirAll error!", err)
+		}
+	})
+}
+
 func TestFileOpenClose(t *testing.T) {
-	p, _ := Load("./test_files/read.txt")
+	p, _ := Load("./test_files/file.txt")
 	t.Run("open", func(t *testing.T) {
 		err := p.Open()
 		if p.file == nil {
@@ -64,12 +83,56 @@ func TestFileOpenClose(t *testing.T) {
 		if err != nil {
 			t.Errorf("%v, test file close error!", err)
 		}
-		fmt.Printf("the file descriptor is invaild as %v, file has been close! \n", p.file.Fd())
+		fmt.Printf("the file descriptor is invaild as %v, file has been closed! \n", p.file.Fd())
+	})
+}
+
+func TestFileWrite(t *testing.T) {
+	p, _ := Load("./test_files/file.txt")
+	t.Run("open", func(t *testing.T) {
+		err := p.Open()
+		if p.file == nil {
+			t.Errorf("%v, test file open error!", err)
+		}
+	})
+	t.Run("wirte", func(t *testing.T) {
+		date := []string{"1\n", "2\n", "3"}
+		err := p.write(date)
+		if err != nil {
+			t.Errorf("%v, test file write error!", err)
+		}
+		p.Close()
+		p.Open()
+		b, _ := p.Read()
+		if string(b) != "1\n2\n3" {
+			t.Errorf("not match,test file write error!")
+		}
+	})
+	t.Run("truncate", func(t *testing.T) {
+		err := p.Truncate(0)
+		sts, _ := p.file.Stat()
+		if err != nil || sts.Size() != 0 {
+			t.Errorf("%v, test file truncate error!", err)
+		}
+	})
+	t.Run("wirte_again", func(t *testing.T) {
+		date := []string{"1\n", "22\n", "333"}
+		err := p.write(date)
+		if err != nil {
+			t.Errorf("%v, test file write error!", err)
+		}
+		p.Close()
+		p.Open()
+		b, _ := p.Read()
+		if string(b) != "1\n22\n333" {
+			t.Errorf("not match,test file write error!")
+		}
+		p.Close()
 	})
 }
 
 func TestFileRead(t *testing.T) {
-	p, _ := Load("./test_files/read.txt")
+	p, _ := Load("./test_files/file.txt")
 	t.Run("open1", func(t *testing.T) {
 		err := p.Open()
 		if p.file == nil {
@@ -98,61 +161,13 @@ func TestFileRead(t *testing.T) {
 		if err != nil && err != io.EOF && l[2] != "3" {
 			t.Errorf("%v, test file read line error!", err)
 		}
+		fmt.Println(l)
 		p.Close()
-	})
-}
-
-func TestFileWrite(t *testing.T) {
-	p, _ := Load("./test_files/wirte.txt")
-	t.Run("open", func(t *testing.T) {
-		err := p.Open()
-		if p.file == nil {
-			t.Errorf("%v, test file open error!", err)
-		}
-	})
-	t.Run("truncate", func(t *testing.T) {
-		err := p.Truncate(0)
-		sts, _ := p.file.Stat()
-		if err != nil || sts.Size() != 0 {
-			t.Errorf("%v, test file truncate error!", err)
-		}
-	})
-	t.Run("wirte", func(t *testing.T) {
-		date := []string{"1\n", "22\n", "333"}
-		err := p.write(date)
-		if err != nil {
-			t.Errorf("%v, test file write error!", err)
-		}
-		p.Close()
-		p.Open()
-		b, _ := p.Read()
-		if string(b) != "1\n22\n333" {
-			t.Errorf("not match,test file write error!")
-		}
-		p.Close()
-	})
-}
-
-func TestDirMkdir(t *testing.T) {
-	p, _ := Load("./test_files/test_dir")
-	t.Run("mkdir", func(t *testing.T) {
-		err := p.Mkdir()
-		if err != nil || !p.ifExist {
-			t.Errorf("%v, test dir mkdir error!", err)
-		}
-	})
-
-	p, _ = Load("./test_files/test_dir/sub_dir/sub")
-	t.Run("mkdirAll", func(t *testing.T) {
-		err := p.MkdirAll()
-		if err != nil || !p.ifExist {
-			t.Errorf("%v, test dir mkdirAll error!", err)
-		}
 	})
 }
 
 func TestDirList(t *testing.T) {
-	p, _ := Load("./")
+	p, _ := Load("./test_files")
 
 	t.Run("list", func(t *testing.T) {
 		paths, err := p.List()
@@ -161,4 +176,25 @@ func TestDirList(t *testing.T) {
 		}
 		fmt.Println(paths)
 	})
+}
+
+func TestDelete(t *testing.T) {
+	t.Run("delete_file", func(t *testing.T) {
+		p, _ := Load("./test_files/file.txt")
+		err := p.Delete()
+		if err != nil {
+			t.Errorf("%v, test file delete error!", err)
+		}
+	})
+
+	t.Run("delete_dir", func(t *testing.T) {
+		p, _ := Load("./test_files")
+		paths, _ := p.List()
+		fmt.Println(paths)
+		err := p.Delete()
+		if err != nil {
+			t.Errorf("%v, test dir delete error!", err)
+		}
+	})
+
 }
