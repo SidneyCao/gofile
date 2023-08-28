@@ -81,5 +81,3 @@ func (p *Path) Delete() error {
 	p.refresh(p.absPath)
 	return nil
 }
-
-// copy
