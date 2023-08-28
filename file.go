@@ -9,7 +9,8 @@ import (
 )
 
 // open file
-// will create if not exist
+// if parent dir exist, will create if not exist
+// if parent dir does not exist, will throw no such file or dir error
 func (p *Path) Open() error {
 	if p.isDir {
 		return errors.New("this object is dir, can not be opened")

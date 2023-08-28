@@ -196,5 +196,4 @@ func TestDelete(t *testing.T) {
 			t.Errorf("%v, test dir delete error!", err)
 		}
 	})
-
 }
