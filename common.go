@@ -36,12 +36,43 @@ func (p *Path) refresh(pathStr string) error {
 	return nil
 }
 
-// move file to another dir
+// p.Move("/example/"): move to another location under the dir named example.
+//
+// p.Move("/example"): move to another location named example
+// move under the same dir is equivalent to rename
 // if parent dir does not exist, will throw no such dir error
-func (p *Path) Move(newDir string) error {
-	if p.ifExist {
+func (p *Path) Move(newPath string) error {
+	if !p.ifExist {
 		return errors.New("this object does not exist, can not be moved")
 	}
+
+	// get the abs path
+	// newAbsPath := ""
+	/*
+		if filepath.IsAbs(newPath) {
+			if newPath[len(newPath)-1] == os.PathSeparator {
+				newAbsPath = filepath.Join(newPath, p.name)
+			} else {
+				newAbsPath = newPath
+			}
+		} else {
+			if newPath[len(newPath)-1] == os.PathSeparator {
+				newAbsPath = filepath.Join(filepath.Dir(newPath), p.name)
+			} else {
+				newAbsPath = filepath.Dir(newPath)
+			}
+		}
+	*/
+	if newPath[len(newPath)-1] == os.PathSeparator {
+		newPath = filepath.Join(filepath.Dir(newPath), p.name)
+	}
+
+	err := os.Rename(p.absPath, newPath)
+	if err != nil {
+		return err
+	}
+
+	p.refresh(newPath)
 	return nil
 }
 
@@ -67,7 +98,5 @@ func (p *Path) Delete() error {
 	p.refresh(p.absPath)
 	return nil
 }
-
-// rename
 
 // copy

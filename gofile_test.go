@@ -178,6 +178,36 @@ func TestDirList(t *testing.T) {
 	})
 }
 
+func TestMove(t *testing.T) {
+
+	/*
+		t.Run("move_error", func(t *testing.T) {
+			p, _ := Load("./test_files/file.txt")
+
+			err := p.Move("./test_files/sub_dir")
+			if err != nil {
+				t.Errorf("%v, move file  error!", err)
+			}
+		})
+	*/
+
+	t.Run("moveToDir", func(t *testing.T) {
+		p, _ := Load("./test_files/file.txt")
+		err := p.Move("./test_files/sub_dir/sub/")
+		if err != nil {
+			t.Errorf("%v, move file  error!", err)
+		}
+	})
+
+	t.Run("rename", func(t *testing.T) {
+		p, _ := Load("./test_files/sub_dir/sub/file.txt")
+		err := p.Move("./test_files/file.txt")
+		if err != nil {
+			t.Errorf("%v, move file  error!", err)
+		}
+	})
+}
+
 func TestDelete(t *testing.T) {
 	t.Run("delete_file", func(t *testing.T) {
 		p, _ := Load("./test_files/file.txt")
