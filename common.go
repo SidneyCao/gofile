@@ -36,9 +36,9 @@ func (p *Path) refresh(pathStr string) error {
 	return nil
 }
 
-// rename
-//func (p *Path) Rename() error {
-//}
+// move file to another dir
+func (p *Path) Move() error {
+}
 
 // delete a file
 // or delete all files of a dir
@@ -51,18 +51,17 @@ func (p *Path) Delete() error {
 			if err != nil {
 				return err
 			}
-			p.refresh(p.absPath)
 		} else {
 			err := os.RemoveAll(p.absPath)
 			if err != nil {
 				return err
 			}
-			p.refresh(p.absPath)
 		}
+		p.refresh(p.absPath)
 	}
 	return nil
 }
 
-// move
+// rename
 
 // copy
