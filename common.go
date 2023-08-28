@@ -37,28 +37,34 @@ func (p *Path) refresh(pathStr string) error {
 }
 
 // move file to another dir
-func (p *Path) Move() error {
+// if parent dir does not exist, will throw no such dir error
+func (p *Path) Move(newDir string) error {
+	if p.ifExist {
+		return errors.New("this object does not exist, can not be moved")
+	}
+	return nil
 }
 
 // delete a file
 // or delete all files of a dir
 func (p *Path) Delete() error {
 	if !p.ifExist {
-		return errors.New("this object does not exist, can not be delete")
-	} else {
-		if p.isFile {
-			err := os.Remove(p.absPath)
-			if err != nil {
-				return err
-			}
-		} else {
-			err := os.RemoveAll(p.absPath)
-			if err != nil {
-				return err
-			}
-		}
-		p.refresh(p.absPath)
+		return errors.New("this object does not exist, can not be deleted")
 	}
+
+	if p.isFile {
+		err := os.Remove(p.absPath)
+		if err != nil {
+			return err
+		}
+	} else {
+		err := os.RemoveAll(p.absPath)
+		if err != nil {
+			return err
+		}
+	}
+
+	p.refresh(p.absPath)
 	return nil
 }
 
