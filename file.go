@@ -46,6 +46,13 @@ func (p *Path) Read() ([]byte, error) {
 	if p.isDir {
 		return nil, errors.New("this object is dir, can not be read")
 	}
+
+	// Move the offset to the beginning of the file
+	_, err := p.file.Seek(0, 0)
+	if err != nil {
+		return nil, err
+	}
+
 	r := bufio.NewReader(p.file)
 
 	res := make([]byte, 0)
@@ -71,6 +78,12 @@ func (p *Path) ReadLines() ([]string, error) {
 	res := make([]string, 0)
 	if p.isDir {
 		return res, errors.New("this object is dir, can not be read")
+	}
+
+	// Move the offset to the beginning of the file
+	_, err := p.file.Seek(0, 0)
+	if err != nil {
+		return nil, err
 	}
 
 	r := bufio.NewReader(p.file)
