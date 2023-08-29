@@ -91,7 +91,7 @@ func (p *Path) ReadLines() ([]string, error) {
 // Write mode is append.
 //
 // If you want to override the file, use Truncate(0) first.
-func (p *Path) write(data []string) error {
+func (p *Path) Write(data []string) error {
 	if p.isDir {
 		return errors.New("this object is dir, can not be written")
 	}

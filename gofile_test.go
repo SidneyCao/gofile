@@ -97,7 +97,7 @@ func TestFileWrite(t *testing.T) {
 	})
 	t.Run("wirte", func(t *testing.T) {
 		date := []string{"1\n", "2\n", "3"}
-		err := p.write(date)
+		err := p.Write(date)
 		if err != nil {
 			t.Errorf("%v, test file write error!", err)
 		}
@@ -117,7 +117,7 @@ func TestFileWrite(t *testing.T) {
 	})
 	t.Run("wirte_again", func(t *testing.T) {
 		date := []string{"1\n", "22\n", "333"}
-		err := p.write(date)
+		err := p.Write(date)
 		if err != nil {
 			t.Errorf("%v, test file write error!", err)
 		}
