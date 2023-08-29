@@ -156,7 +156,7 @@ func TestFileRead(t *testing.T) {
 	})
 
 	t.Run("readline", func(t *testing.T) {
-		_, err := p.ReadLines()
+		l, err := p.ReadLines()
 		if err != nil && err != io.EOF && l[2] != "3" {
 			t.Errorf("%v, test file read line error!", err)
 		}
