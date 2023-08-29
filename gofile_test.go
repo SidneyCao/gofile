@@ -1,7 +1,6 @@
 package gofile
 
 import (
-	"fmt"
 	"io"
 	"testing"
 )
@@ -76,14 +75,14 @@ func TestFileOpenClose(t *testing.T) {
 		if p.file == nil {
 			t.Errorf("%v, test file open error!", err)
 		}
-		fmt.Printf("the Path struct is %v \n", p)
+		//.Printf("the Path struct is %v \n", p)
 	})
 	t.Run("close", func(t *testing.T) {
 		err := p.Close()
 		if err != nil {
 			t.Errorf("%v, test file close error!", err)
 		}
-		fmt.Printf("the file descriptor is invaild as %v, file has been closed! \n", p.file.Fd())
+		//fmt.Printf("the file descriptor is invaild as %v, file has been closed! \n", p.file.Fd())
 	})
 }
 
@@ -141,11 +140,11 @@ func TestFileRead(t *testing.T) {
 	})
 
 	t.Run("read", func(t *testing.T) {
-		b, err := p.Read()
+		_, err := p.Read()
 		if err != nil && err != io.EOF {
 			t.Errorf("%v, test file read error!", err)
 		}
-		fmt.Println(string(b))
+		//fmt.Println(string(b))
 		p.Close()
 	})
 
@@ -161,7 +160,7 @@ func TestFileRead(t *testing.T) {
 		if err != nil && err != io.EOF && l[2] != "3" {
 			t.Errorf("%v, test file read line error!", err)
 		}
-		fmt.Println(l)
+		//fmt.Println(l)
 		p.Close()
 	})
 }
@@ -170,11 +169,11 @@ func TestDirList(t *testing.T) {
 	p, _ := Load("./test_files")
 
 	t.Run("list", func(t *testing.T) {
-		paths, err := p.List()
+		_, err := p.List()
 		if err != nil {
 			t.Errorf("%v, test dir list error!", err)
 		}
-		fmt.Println(paths)
+		//fmt.Println(paths)
 	})
 }
 
@@ -219,8 +218,8 @@ func TestDelete(t *testing.T) {
 
 	t.Run("delete_dir", func(t *testing.T) {
 		p, _ := Load("./test_files")
-		paths, _ := p.List()
-		fmt.Println(paths)
+		//paths, _ := p.List()
+		//fmt.Println(paths)
 		err := p.Delete()
 		if err != nil {
 			t.Errorf("%v, test dir delete error!", err)
