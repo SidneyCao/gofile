@@ -54,5 +54,3 @@ func (p *Path) List() ([]Path, error) {
 	}
 	return nil, errors.New("this object is not a dir")
 }
-
-//
