@@ -69,6 +69,36 @@ func TestMkdir(t *testing.T) {
 }
 
 func TestFileOpenClose(t *testing.T) {
+	t.Run("openDirError", func(t *testing.T) {
+		p, _ := Load("./test_files")
+		err := p.Open()
+		if err != nil {
+			t.Errorf("%v, test file open error!", err)
+		}
+		p.Close()
+	})
+	t.Run("openAndClose", func(t *testing.T) {
+		p, _ := Load("./test_files/file.txt")
+		err := p.Open()
+		if err != nil {
+			t.Errorf("%v, test file open error!", err)
+		}
+		err = p.Close()
+		if err != nil {
+			t.Errorf("%v, test file close error!", err)
+		}
+	})
+	t.Run("CloseNoOpen", func(t *testing.T) {
+		p, _ := Load("./test_files/file.txt")
+		err := p.Close()
+		if err != nil {
+			t.Errorf("%v, test file close error!", err)
+		}
+	})
+}
+
+/*
+func TestFileOpenClose(t *testing.T) {
 	p, _ := Load("./test_files/file.txt")
 	t.Run("open", func(t *testing.T) {
 		err := p.Open()
@@ -85,6 +115,7 @@ func TestFileOpenClose(t *testing.T) {
 		//fmt.Printf("the file descriptor is invaild as %v, file has been closed! \n", p.file.Fd())
 	})
 }
+*/
 
 func TestFileWrite(t *testing.T) {
 	p, _ := Load("./test_files/file.txt")
