@@ -80,13 +80,9 @@ func TestFileOpenClose(t *testing.T) {
 	t.Run("openAndClose", func(t *testing.T) {
 		p, _ := Load("./test_files/file.txt")
 		err := p.Open()
-		if err != nil {
-			t.Errorf("%v, test file open error!", err)
-		}
+		assert.NoError(t, err)
 		err = p.Close()
-		if err != nil {
-			t.Errorf("%v, test file close error!", err)
-		}
+		assert.NoError(t, err)
 	})
 
 	t.Run("CloseNoOpen", func(t *testing.T) {
@@ -96,28 +92,7 @@ func TestFileOpenClose(t *testing.T) {
 			assert.EqualErrorf(t, err, "this object has not been opened, can not be closed", "Error should be: %v, got: %v", "this object has not been opened, can not be closed", err)
 		}
 	})
-
 }
-
-/*
-func TestFileOpenClose(t *testing.T) {
-	p, _ := Load("./test_files/file.txt")
-	t.Run("open", func(t *testing.T) {
-		err := p.Open()
-		if p.file == nil || err != nil {
-			t.Errorf("%v, test file open error!", err)
-		}
-		//.Printf("the Path struct is %v \n", p)
-	})
-	t.Run("close", func(t *testing.T) {
-		err := p.Close()
-		if err != nil {
-			t.Errorf("%v, test file close error!", err)
-		}
-		//fmt.Printf("the file descriptor is invaild as %v, file has been closed! \n", p.file.Fd())
-	})
-}
-*/
 
 func TestFileWrite(t *testing.T) {
 	p, _ := Load("./test_files/file.txt")
@@ -177,7 +152,6 @@ func TestFileRead(t *testing.T) {
 		if err != nil && err != io.EOF {
 			t.Errorf("%v, test file read error!", err)
 		}
-		//fmt.Println(string(b))
 		p.Close()
 	})
 
@@ -193,7 +167,6 @@ func TestFileRead(t *testing.T) {
 		if err != nil && err != io.EOF && l[2] != "3" {
 			t.Errorf("%v, test file read line error!", err)
 		}
-		//fmt.Println(l)
 		p.Close()
 	})
 }
