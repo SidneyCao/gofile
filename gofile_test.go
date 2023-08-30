@@ -88,15 +88,15 @@ func TestFileOpenClose(t *testing.T) {
 			t.Errorf("%v, test file close error!", err)
 		}
 	})
-	/*
-		t.Run("CloseNoOpen", func(t *testing.T) {
-			p, _ := Load("./test_files/file.txt")
-			err := p.Close()
-			if err != nil {
-				t.Errorf("%v, test file close error!", err)
-			}
-		})
-	*/
+
+	t.Run("CloseNoOpen", func(t *testing.T) {
+		p, _ := Load("./test_files/file.txt")
+		err := p.Close()
+		if err != nil {
+			assert.EqualErrorf(t, err, "this object has not been opened, can not be closed", "Error should be: %v, got: %v", "this object has not been opened, can not be closed", err)
+		}
+	})
+
 }
 
 /*
