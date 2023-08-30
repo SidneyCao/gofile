@@ -72,7 +72,7 @@ func TestFileOpenClose(t *testing.T) {
 	p, _ := Load("./test_files/file.txt")
 	t.Run("open", func(t *testing.T) {
 		err := p.Open()
-		if p.file == nil {
+		if p.file == nil || err != nil {
 			t.Errorf("%v, test file open error!", err)
 		}
 		//.Printf("the Path struct is %v \n", p)
