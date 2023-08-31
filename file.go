@@ -114,7 +114,7 @@ func (p *Path) Write(data []string) error {
 			return err
 		}
 		if n != len(s) {
-			return errors.New("write bytes num error")
+			return errors.New("write bytes number error")
 		}
 	}
 
