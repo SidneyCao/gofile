@@ -43,8 +43,8 @@ func (p *Path) Close() error {
 
 // Read a file.
 func (p *Path) Read() ([]byte, error) {
-	if p.isDir {
-		return nil, errors.New("this object is dir, can not be read")
+	if p.file == nil {
+		return nil, errors.New("this object have not been opened, please open first")
 	}
 
 	// Move the offset to the beginning of the file
@@ -76,8 +76,8 @@ func (p *Path) Read() ([]byte, error) {
 // The returned error will never be nil, most time it is io.EOF.
 func (p *Path) ReadLines() ([]string, error) {
 	res := make([]string, 0)
-	if p.isDir {
-		return res, errors.New("this object is dir, can not be read")
+	if p.file == nil {
+		return nil, errors.New("this object have not been opened, please open first")
 	}
 
 	// Move the offset to the beginning of the file

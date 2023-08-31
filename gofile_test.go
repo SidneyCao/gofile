@@ -140,33 +140,18 @@ func TestFileWrite(t *testing.T) {
 
 func TestFileRead(t *testing.T) {
 	p, _ := Load("./test_files/file.txt")
-	t.Run("open1", func(t *testing.T) {
-		err := p.Open()
-		if p.file == nil {
-			t.Errorf("%v, test file open error!", err)
-		}
-	})
-
-	t.Run("read", func(t *testing.T) {
+	t.Run("readNotOpenError", func(t *testing.T) {
 		_, err := p.Read()
-		if err != nil && err != io.EOF {
-			t.Errorf("%v, test file read error!", err)
-		}
-		p.Close()
+		assert.EqualErrorf(t, err, "this object have not been opened, please open first", "Error should be: %v, got: %v", "this object is dir, can not be opened", err)
+		_, err = p.ReadLines()
+		assert.EqualErrorf(t, err, "this object have not been opened, please open first", "Error should be: %v, got: %v", "this object is dir, can not be opened", err)
 	})
-
-	t.Run("open2", func(t *testing.T) {
-		err := p.Open()
-		if p.file == nil {
-			t.Errorf("%v, test file open error!", err)
-		}
-	})
-
-	t.Run("readline", func(t *testing.T) {
-		l, err := p.ReadLines()
-		if err != nil && err != io.EOF && l[2] != "3" {
-			t.Errorf("%v, test file read line error!", err)
-		}
+	t.Run("read", func(t *testing.T) {
+		p.Open()
+		_, err := p.Read()
+		assert.Equal(t, err, io.EOF)
+		_, err = p.ReadLines()
+		assert.Equal(t, err, io.EOF)
 		p.Close()
 	})
 }
