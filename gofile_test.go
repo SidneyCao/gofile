@@ -96,14 +96,17 @@ func TestFileOpenClose(t *testing.T) {
 
 func TestFileWrite(t *testing.T) {
 	p, _ := Load("./test_files/file.txt")
-	t.Run("open", func(t *testing.T) {
-		err := p.Open()
-		if p.file == nil {
-			t.Errorf("%v, test file open error!", err)
-		}
+	date := []string{"1\n", "2\n", "3"}
+	t.Run("writeNotOpenError", func(t *testing.T) {
+		err := p.Write(date)
+		assert.EqualErrorf(t, err, "this object have not been opened, please open first", "Error should be: %v, got: %v", "this object is dir, can not be opened", err)
+	})
+	t.Run("TruncateNotOpenError", func(t *testing.T) {
+		err := p.Truncate(0)
+		assert.EqualErrorf(t, err, "this object have not been opened, please open first", "Error should be: %v, got: %v", "this object is dir, can not be opened", err)
 	})
 	t.Run("wirte", func(t *testing.T) {
-		date := []string{"1\n", "2\n", "3"}
+		p.Open()
 		err := p.Write(date)
 		if err != nil {
 			t.Errorf("%v, test file write error!", err)
@@ -123,11 +126,9 @@ func TestFileWrite(t *testing.T) {
 		}
 	})
 	t.Run("wirte_again", func(t *testing.T) {
-		date := []string{"1\n", "22\n", "333"}
+		date = []string{"1\n", "22\n", "333"}
 		err := p.Write(date)
-		if err != nil {
-			t.Errorf("%v, test file write error!", err)
-		}
+		assert.NoError(t, err)
 		p.Close()
 		p.Open()
 		b, _ := p.Read()

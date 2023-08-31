@@ -105,8 +105,8 @@ func (p *Path) ReadLines() ([]string, error) {
 //
 // If you want to override the file, use Truncate(0) first.
 func (p *Path) Write(data []string) error {
-	if p.isDir {
-		return errors.New("this object is dir, can not be written")
+	if p.file == nil {
+		return errors.New("this object have not been opened, please open first")
 	}
 	for _, s := range data {
 		n, err := p.file.WriteString(s)
@@ -123,8 +123,8 @@ func (p *Path) Write(data []string) error {
 
 // Truncate size of a file.
 func (p *Path) Truncate(size int64) error {
-	if p.isDir {
-		return errors.New("this object is dir, can not be truncated")
+	if p.file == nil {
+		return errors.New("this object have not been opened, please open first")
 	}
 	err := p.file.Truncate(size)
 	return err
