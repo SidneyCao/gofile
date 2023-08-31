@@ -5,7 +5,7 @@ Package gofile provide some utilities for working with local files in golang.
 [![codecov](https://codecov.io/gh/sidneycao/gofile/graph/badge.svg?token=YJVHRZAL1X)](https://codecov.io/gh/sidneycao/gofile)
 [![Go Report Card](https://goreportcard.com/badge/github.com/sidneycao/gofile)](https://goreportcard.com/report/github.com/sidneycao/gofile)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsidneycao%2Fgofile.svg?type=small)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsidneycao%2Fgofile?ref=badge_small)  
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsidneycao%2Fgofile.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsidneycao%2Fgofile?ref=badge_shield)  
 
 ## Insatll  
 ```sh
