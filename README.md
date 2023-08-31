@@ -7,7 +7,7 @@ Package gofile provide some utilities for working with local files in golang.
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsidneycao%2Fgofile.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsidneycao%2Fgofile?ref=badge_shield)  
 
-## Insatll  
+## Install  
 ```sh
   $ go get github.com/sidneycao/gofile
 ``` 
