@@ -6,6 +6,11 @@ import (
 	"path/filepath"
 )
 
+// Name
+func (p *Path) Name() string {
+	return p.name
+}
+
 // If exist
 func (p *Path) Exist() bool {
 	return p.ifExist
