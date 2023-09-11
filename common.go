@@ -6,6 +6,11 @@ import (
 	"path/filepath"
 )
 
+// If exist
+func (p *Path) Exist() bool {
+	return p.ifExist
+}
+
 // Refresh the Path struct info.
 func (p *Path) refresh(pathStr string) error {
 	// get the name
