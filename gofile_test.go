@@ -12,41 +12,41 @@ import (
 func TestLoad(t *testing.T) {
 	t.Run("exist", func(t *testing.T) {
 		p, _ := Load("./README.md")
-		if !p.ifExist {
+		if !p.IfExist {
 			t.Errorf("test exist error!")
 		}
 	})
 	t.Run("not_exist", func(t *testing.T) {
 		p, _ := Load("/x/y")
-		if p.ifExist {
+		if p.IfExist {
 			t.Errorf("test not exist error!")
 		}
 	})
 	t.Run("file", func(t *testing.T) {
 		p, _ := Load("/etc/profile")
-		if !p.isFile {
+		if !p.IsFile {
 			t.Errorf("test type file error!")
 		}
-		if p.name != "profile" {
+		if p.Name != "profile" {
 			t.Errorf("test file name error!")
 		}
-		if p.absPath != "/etc/profile" {
+		if p.AbsPath != "/etc/profile" {
 			t.Errorf("test file abspath error!")
 		}
 		p, _ = Load("./README.md")
-		if p.ext != ".md" {
+		if p.Ext != ".md" {
 			t.Errorf("test file ext error!")
 		}
 	})
 	t.Run("dir", func(t *testing.T) {
 		p, _ := Load("/")
-		if !p.isDir {
+		if !p.IsDir {
 			t.Errorf("test type dir error!")
 		}
-		if p.name != "/" {
+		if p.Name != "/" {
 			t.Errorf("test dir name error!")
 		}
-		if p.absPath != "/" {
+		if p.AbsPath != "/" {
 			t.Errorf("test dir abspath error!")
 		}
 	})
@@ -56,7 +56,7 @@ func TestMkdir(t *testing.T) {
 	p, _ := Load("./test_files")
 	t.Run("mkdir", func(t *testing.T) {
 		err := p.Mkdir()
-		if err != nil || !p.ifExist {
+		if err != nil || !p.IfExist {
 			t.Errorf("%v, test dir mkdir error!", err)
 		}
 	})
@@ -64,7 +64,7 @@ func TestMkdir(t *testing.T) {
 	p, _ = Load("./test_files/sub_dir/sub")
 	t.Run("mkdirAll", func(t *testing.T) {
 		err := p.MkdirAll()
-		if err != nil || !p.ifExist {
+		if err != nil || !p.IfExist {
 			t.Errorf("%v, test dir mkdirAll error!", err)
 		}
 	})

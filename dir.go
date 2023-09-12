@@ -7,24 +7,24 @@ import (
 
 // Make a directory.
 func (p *Path) Mkdir() error {
-	if p.ifExist || p.isFile {
+	if p.IfExist || p.IsFile {
 		return errors.New("this object already exists or is a file")
 	}
 
-	err := os.Mkdir(p.absPath, 0755)
-	p.refresh(p.absPath)
+	err := os.Mkdir(p.AbsPath, 0755)
+	p.refresh(p.AbsPath)
 
 	return err
 }
 
 // Make directories recursively.
 func (p *Path) MkdirAll() error {
-	if p.ifExist || p.isFile {
+	if p.IfExist || p.IsFile {
 		return errors.New("this object already exists or is a file")
 	}
 
-	err := os.MkdirAll(p.absPath, 0755)
-	p.refresh(p.absPath)
+	err := os.MkdirAll(p.AbsPath, 0755)
+	p.refresh(p.AbsPath)
 
 	return err
 }
@@ -35,9 +35,9 @@ func (p *Path) MkdirAll() error {
 //
 // Not recursively.
 func (p *Path) List() ([]Path, error) {
-	if p.isDir {
+	if p.IsDir {
 		paths := make([]Path, 0)
-		dir, err := os.Open(p.absPath)
+		dir, err := os.Open(p.AbsPath)
 		if err != nil {
 			return nil, err
 		}
@@ -46,7 +46,7 @@ func (p *Path) List() ([]Path, error) {
 		subInfo, err := dir.ReadDir(0)
 		if len(subInfo) > 0 {
 			for _, i := range subInfo {
-				p, _ := Load(p.absPath + string(os.PathSeparator) + i.Name())
+				p, _ := Load(p.AbsPath + string(os.PathSeparator) + i.Name())
 				paths = append(paths, p)
 			}
 			return paths, err

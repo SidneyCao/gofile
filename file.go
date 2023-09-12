@@ -14,17 +14,17 @@ import (
 //
 // If parent directory does not exist, will throw up 'no such dir' error.
 func (p *Path) Open() error {
-	if p.isDir {
+	if p.IsDir {
 		return errors.New("this object is dir, can not be opened")
 	}
 
-	f, err := os.OpenFile(p.absPath, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0644)
+	f, err := os.OpenFile(p.AbsPath, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0644)
 	if err != nil {
 		return err
 	}
 
 	p.file = f
-	p.refresh(p.absPath)
+	p.refresh(p.AbsPath)
 	return nil
 }
 

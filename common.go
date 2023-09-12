@@ -6,48 +6,33 @@ import (
 	"path/filepath"
 )
 
-// Name
-func (p *Path) Name() string {
-	return p.name
-}
-
-// is Dir
-func (p *Path) IsDir() bool {
-	return p.isDir
-}
-
-// If exist
-func (p *Path) IfExist() bool {
-	return p.ifExist
-}
-
 // Refresh the Path struct info.
 func (p *Path) refresh(pathStr string) error {
 	// get the name
-	p.name = filepath.Base(pathStr)
+	p.Name = filepath.Base(pathStr)
 	// get the absPath
-	p.absPath, _ = filepath.Abs(pathStr)
+	p.AbsPath, _ = filepath.Abs(pathStr)
 
 	// if exist
 	sts, err := os.Stat(pathStr)
 	if err != nil {
 		if !os.IsExist(err) {
-			p.ifExist = false
+			p.IfExist = false
 		}
 		return err
 	}
-	p.ifExist = true
+	p.IfExist = true
 
 	// if is dir
 	if sts.IsDir() {
-		p.isDir = true
+		p.IsDir = true
 		return nil
 	} else {
-		p.isFile = true
+		p.IsFile = true
 	}
 
 	// get ext
-	p.ext = filepath.Ext(pathStr)
+	p.Ext = filepath.Ext(pathStr)
 	return nil
 }
 
@@ -59,14 +44,14 @@ func (p *Path) refresh(pathStr string) error {
 //
 // If parent directory does not exist, will throw up 'no such dir' error.
 func (p *Path) Move(newPath string) error {
-	if !p.ifExist {
+	if !p.IfExist {
 		return errors.New("this object does not exist, can not be moved")
 	}
 	if newPath[len(newPath)-1] == os.PathSeparator {
-		newPath = filepath.Join(filepath.Dir(newPath), p.name)
+		newPath = filepath.Join(filepath.Dir(newPath), p.Name)
 	}
 
-	err := os.Rename(p.absPath, newPath)
+	err := os.Rename(p.AbsPath, newPath)
 	if err != nil {
 		return err
 	}
@@ -77,22 +62,22 @@ func (p *Path) Move(newPath string) error {
 
 // Delete a file or delete a directory with its all files.
 func (p *Path) Delete() error {
-	if !p.ifExist {
+	if !p.IfExist {
 		return errors.New("this object does not exist, can not be deleted")
 	}
 
-	if p.isFile {
-		err := os.Remove(p.absPath)
+	if p.IsFile {
+		err := os.Remove(p.AbsPath)
 		if err != nil {
 			return err
 		}
 	} else {
-		err := os.RemoveAll(p.absPath)
+		err := os.RemoveAll(p.AbsPath)
 		if err != nil {
 			return err
 		}
 	}
 
-	p.refresh(p.absPath)
+	p.refresh(p.AbsPath)
 	return nil
 }

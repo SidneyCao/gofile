@@ -5,13 +5,13 @@ import (
 )
 
 type Path struct {
-	ifExist bool // default false
-	isDir   bool // default false
-	isFile  bool // default false
+	IfExist bool // default false
+	IsDir   bool // default false
+	IsFile  bool // default false
 
-	name    string // default ""
-	absPath string // default ""
-	ext     string // default ""
+	Name    string // default ""
+	AbsPath string // default ""
+	Ext     string // default ""
 
 	file *os.File // default nil
 }
