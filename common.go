@@ -11,8 +11,13 @@ func (p *Path) Name() string {
 	return p.name
 }
 
+// is Dir
+func (p *Path) IsDir() bool {
+	return p.isDir
+}
+
 // If exist
-func (p *Path) Exist() bool {
+func (p *Path) IfExist() bool {
 	return p.ifExist
 }
 
