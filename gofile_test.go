@@ -120,7 +120,7 @@ func TestFileWrite(t *testing.T) {
 	})
 	t.Run("truncate", func(t *testing.T) {
 		err := p.Truncate(0)
-		sts, _ := p.file.Stat()
+		sts, _ := p.File.Stat()
 		if err != nil || sts.Size() != 0 {
 			t.Errorf("%v, test file truncate error!", err)
 		}

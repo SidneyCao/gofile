@@ -23,15 +23,15 @@ func (p *Path) Open() error {
 		return err
 	}
 
-	p.file = f
+	p.File = f
 	p.refresh(p.AbsPath)
 	return nil
 }
 
 // Close a file.
 func (p *Path) Close() error {
-	if p.file != nil {
-		err := p.file.Close()
+	if p.File != nil {
+		err := p.File.Close()
 		if err != nil {
 			return err
 		}
@@ -43,17 +43,17 @@ func (p *Path) Close() error {
 
 // Read a file.
 func (p *Path) Read() ([]byte, error) {
-	if p.file == nil {
+	if p.File == nil {
 		return nil, errors.New("this object have not been opened, please open first")
 	}
 
 	// Move the offset to the beginning of the file
-	_, err := p.file.Seek(0, 0)
+	_, err := p.File.Seek(0, 0)
 	if err != nil {
 		return nil, err
 	}
 
-	r := bufio.NewReader(p.file)
+	r := bufio.NewReader(p.File)
 
 	res := make([]byte, 0)
 	resTemp := make([]byte, 1024)
@@ -76,17 +76,17 @@ func (p *Path) Read() ([]byte, error) {
 // The returned error will never be nil, most time it is io.EOF.
 func (p *Path) ReadLines() ([]string, error) {
 	res := make([]string, 0)
-	if p.file == nil {
+	if p.File == nil {
 		return nil, errors.New("this object have not been opened, please open first")
 	}
 
 	// Move the offset to the beginning of the file
-	_, err := p.file.Seek(0, 0)
+	_, err := p.File.Seek(0, 0)
 	if err != nil {
 		return nil, err
 	}
 
-	r := bufio.NewReader(p.file)
+	r := bufio.NewReader(p.File)
 
 	for {
 		line, err := r.ReadBytes('\n')
@@ -105,11 +105,11 @@ func (p *Path) ReadLines() ([]string, error) {
 //
 // If you want to override the file, use Truncate(0) first.
 func (p *Path) Write(data []string) error {
-	if p.file == nil {
+	if p.File == nil {
 		return errors.New("this object have not been opened, please open first")
 	}
 	for _, s := range data {
-		n, err := p.file.WriteString(s)
+		n, err := p.File.WriteString(s)
 		if err != nil {
 			return err
 		}
@@ -123,9 +123,9 @@ func (p *Path) Write(data []string) error {
 
 // Truncate size of a file.
 func (p *Path) Truncate(size int64) error {
-	if p.file == nil {
+	if p.File == nil {
 		return errors.New("this object have not been opened, please open first")
 	}
-	err := p.file.Truncate(size)
+	err := p.File.Truncate(size)
 	return err
 }

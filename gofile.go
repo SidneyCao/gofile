@@ -13,7 +13,7 @@ type Path struct {
 	AbsPath string // default ""
 	Ext     string // default ""
 
-	file *os.File // default nil
+	File *os.File // default nil
 }
 
 // Load the path to the Path struct.
