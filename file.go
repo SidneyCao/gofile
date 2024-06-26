@@ -28,6 +28,21 @@ func (p *Path) Open() error {
 	return nil
 }
 
+func (p *Path) OpenOverride() error {
+	if p.IsDir {
+		return errors.New("this object is dir, can not be opened")
+	}
+
+	f, err := os.OpenFile(p.AbsPath, os.O_RDWR|os.O_TRUNC|os.O_CREATE, 0644)
+	if err != nil {
+		return err
+	}
+
+	p.File = f
+	p.refresh(p.AbsPath)
+	return nil
+}
+
 // Close a file.
 func (p *Path) Close() error {
 	if p.File != nil {
